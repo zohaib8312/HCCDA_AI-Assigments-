@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!-- saved from url=(0055)file:///C:/Users/Muhammad%20Zohaib/Documents/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>OCR Image to Text</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    #output { margin-top: 20px; white-space: pre-wrap; border: 1px solid #ccc; padding: 10px; }
+  </style>
+</head>
+<body>
+
+  <h2>Upload an Image for OCR</h2>
+
+  <form id="ocrForm">
+    <input type="file" id="imageFile" accept="image/*" required=""><br><br>
+    <button type="submit">Extract Text</button>
+  </form>
+
+  <div id="output">Virtual Private Cloud (VP(<br>Console<br>Self-service Troubleshoci<br>Elastic Cloud Server - Co<br>Relational Database Serv<br>c<br>console.huaweicloud.com/ecm/?agencyld=d95b61dda8014b54a80cddce1a63002c&amp;region=ap-southeast-3&amp;locale=en-us#/ecs/manager/vmList<br>Protection required for critical operations. To enable the protection, go to Security Settings &gt; Critical Operations &gt; Operation Protection.<br>Enable<br>HUAWEI CLOUD<br>Cloud Server<br>Console<br>Overview<br>Events<br>Scheduled O&amp;M<br>Troubleshooting<br>Cloud Bastion Host<br>Servers and<br>Images<br>Elastic Cloud Server<br>Elastic Cloud<br>Server<br>ECS Group<br>Huawei Cloud Flexus<br>Dedicated Host<br>Bare Metal Server<br>Q Search for...<br>Console AP-Singapore v<br>O The password reset plug-in can now be installed after creating an ECS. Learn how eto install the plug-in.<br>My ECSs:<br>AP-Singapore (1)<br>More [E] O (D 9 EN<br>Alarms O<br>Start<br>Security Risks O<br>Stop<br>Pending Renewals<br>Reset Password<br>Status<br>O<br>Running<br>UniAgent not Installed<br>Q Search or filter by name.<br>Name/lD<br>ecs-mp<br>01233595-1a63-4b42-9...<br>Restart<br>Moni...<br>Renew<br>AZ3<br>More v<br>Specifications/lmage<br>1 vCPU | 1 GiB I s6.small.1<br>CentOS 7.6 64bit<br>Export v<br>OS<br>Linux<br>Total Records: 1<br>Selected: O<br>Operation<br>Remote Login<br>10<br>Guest<br>Sandbox-Voyager20352<br>sandbox-user<br>O<br>C)<br>M Ore v<br>1<br>3:25 pm<br></div>
+
+  <script>
+    document.getElementById('ocrForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const fileInput = document.getElementById('imageFile');
+      const file = fileInput.files[0];
+
+      if (!file) {
+        alert('Please select an image file first!');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('apikey', 'K82090018488957');  // Replace with your real API key
+      formData.append('language', 'eng');             // You can change language here
+      formData.append('isOverlayRequired', 'false');
+      formData.append('file', file);
+
+      fetch('https://api.ocr.space/parse/image', {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => {
+        const parsedText = data.ParsedResults?.[0]?.ParsedText || 'No text found';
+        document.getElementById('output').innerText = parsedText;
+      })
+      .catch(err => {
+        document.getElementById('output').innerText = 'Error: ' + err.message;
+      });
+    });
+  </script>
+
+
+
+</body></html>

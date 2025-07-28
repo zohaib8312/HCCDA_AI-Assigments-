@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OCR Image to Text</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    #output { margin-top: 20px; white-space: pre-wrap; border: 1px solid #ccc; padding: 10px; }
+  </style>
+</head>
+<body>
+
+  <h2>Upload an Image for OCR</h2>
+
+  <form id="ocrForm">
+    <input type="file" id="imageFile" accept="image/*" required><br><br>
+    <button type="submit">Extract Text</button>
+  </form>
+
+  <div id="output"></div>
+
+  <script>
+    document.getElementById('ocrForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const fileInput = document.getElementById('imageFile');
+      const file = fileInput.files[0];
+
+      if (!file) {
+        alert('Please select an image file first!');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('apikey', 'K82090018488957');  // Replace with your real API key
+      formData.append('language', 'eng');             // You can change language here
+      formData.append('isOverlayRequired', 'false');
+      formData.append('file', file);
+
+      fetch('https://api.ocr.space/parse/image', {
+        method: 'POST',
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => {
+        const parsedText = data.ParsedResults?.[0]?.ParsedText || 'No text found';
+        document.getElementById('output').innerText = parsedText;
+      })
+      .catch(err => {
+        document.getElementById('output').innerText = 'Error: ' + err.message;
+      });
+    });
+  </script>
+
+</body>
+</html>
